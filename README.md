@@ -1,12 +1,12 @@
 Author: Niall McManus (nmcman01@student.bbk.ac.uk)
 
-Welcome to ‘**Privacy-Preserving Unsupervised Entity Alignment for Heterogeneous Knowledge Graphs using Pre-Trained Language Models and Homomorphic Encryption**’.
+# Welcome to ‘Privacy-Preserving Unsupervised Entity Alignment for Heterogeneous Knowledge Graphs using Pre-Trained Language Models and Homomorphic Encryption’.
 
 First, please have a look at the associated paper ‘*Privacy-Preserving Unsupervised Entity Alignment for Heterogeneous Knowledge Graphs using Pre-Trained Language Models and Homomorphic Encryption*’ by McManus (2023). The motivation behind this project and how to run this package are explained below, but this paper provides the technical detail behind the approach. **If you simply want to execute this code, then please refer to the section named ‘How do I run this code?’ at the end of this file.**
 
 *Note: This package was developed using Python 3.10.12 on a Microsoft Azure ‘Standard_NC4as_T4_v3’ virtual machine with 4 AMD EPYC 7V12 (Rome) vCPUs, 28GiB RAM and 16GiB NVIDIA T4 GPU, and Linux Ubuntu 22.04.*
 
-**Project Details.**
+### Project Details.
 
 This project’s primary goal was to develop an embedding-based entity alignment (EA) method that can be conducted in an unsupervised, privacy-preserving manner. Currently, no known EA method exists that can be applied to privacy-critical settings, whereby two parties are required to conduct entity alignment between their respective knowledge graphs (KGs) while ensuring that the opposing party can never access the underlying data of their graph.
 
@@ -18,25 +18,27 @@ Unfortunately, the performance is unsatisfactory, with the best-performing model
 
 This package may be freely copied and modified.
 
-**What does embedding-based mean?**
+### What does embedding-based mean?
 
 This refers to the way this solution models entities – as numeric vector representations known as embeddings. To derive an entity embedding, the text-based attributes associated with an entity are passed through a pre-trained language model to generate text embeddings. These text embeddings are then aggregated using a mean pooling operation to derive entity embeddings that can be compared to determine if two entities in different knowledge graphs refer to the same real-world object or concept.
 
-**What does unsupervised mean?**
+### What does unsupervised mean?
 
 Generally, current EA methods transform entity embeddings into a unified vector space using seed alignments – pre-aligned pairs of entities. They train a neural network using these pre-aligned ground-truth matches as supervision. The network learns a transformation function that makes entity embeddings of matching entities have similar values. Once trained, all other embeddings are passed through this neural network so that the embeddings are better suited for the EA task. Pre-aligned entity pairs cannot be gathered in privacy-critical settings, as it would require exposing the underlying data. Therefore, this approach doesn’t require seed alignments or the transformation of embeddings. This is because the attribute-derived text embeddings generated from pre-trained language models already belong to the same vector space and can be compared as they are.
 
-**What does privacy-preserving mean?**
+### What does privacy-preserving mean?
 
 This is main motivation behind this project – to develop an EA method that can be leveraged in privacy-critical settings. This means that two parties can find matching entities between their KGs without exposing any data to the opposing party. This is achieved by making the method unsupervised, as described above. Additionally, as text embeddings are susceptible to inversion attacks, another layer of security is added by encrypting entity embeddings using the CKKS homomorphic encryption scheme.
 
-**What is homomorphic encryption?**
+### 
+
+### What is homomorphic encryption?
 
 Homomorphic encryption is an encryption scheme that enables mathematical operations to be conducted on encrypted data. This enables the dot product similarity to be calculated on encrypted embeddings, therefore enabling EA while ensuring the underlying data of both KGs remains secure.
 
-**What you need to know about this package.**
+### What you need to know about this package.
 
-**The ‘**data**’ folder.**
+### The ‘data’ folder.
 
 The ‘data’ folder contains the benchmark ‘*DBP-WD-15K*’ datasets. There are two datasets included, ‘D_W_15K_V1’ and ‘D_W_15K_V2’. They both contain RDF formatted attribute triples for 15,000 entities sampled from two real-world KGs – *DBpedia* and *Wikidata* – and a file containing the pairs of entities from each graph that refer to the same real-world object.
 
@@ -46,9 +48,9 @@ D_W_15K_v2 – this dataset contains a more synthetic representation of *DBpedia
 
 There are multiple files in each dataset:
 
--   attr_triples_1 - contains the RDF attribute triples extracted from DBpedia.
+-   attr_triples_1 - contains the RDF attribute triples extracted from *DBpedia*.
 
--   attr_triples_2 - contains the RDF attribute triples extracted from Wikidata.
+-   attr_triples_2 - contains the RDF attribute triples extracted from *Wikidata.*
 
 -   ent_links - contains the matching pairs of entities from both KGs.
 
@@ -62,7 +64,7 @@ There are multiple files in each dataset:
 
 -   wikidata_property_labels.csv – as Wikidata RDF triples specify attribute types as unique identifiers, this file contains mapping that transform them into their natural language representation.
 
-**The ’**src**’ folder.**
+### The ’src’ folder.
 
 This folder contains the source code for this solution. The below provides a description of the category of functions contained in each file. For a description of each function, please refer to comments above each function in the respective file.
 
@@ -94,7 +96,7 @@ Please note, when *Technique 3 or 4* are applied there is only one string to emb
 
 -   utils.py – this file contains general functions.
 
-**How do I run the code?**
+### How do I run the code?
 
 To run this code, it is strongly recommended that a new Python virtual environment is configured to install package dependencies and execute the program. It is also advised to run this code on a machine equipped with an NVIDIA GPU since it can notably expedite embedding and inference, though this is not a requirement as the program is also compatible with CPU architectures. Please note, if using an NVIDIA GPU equipped machine, you will be required to install the relevant version of the Python package cudatoolkit. This will be specific to the NVIDIA GPU driver and CUDA version of your machine.
 
@@ -102,15 +104,13 @@ Below are the required steps to configure a new Anaconda environment, install pa
 
 The following package dependencies are required:
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 numpy==1.23.1
-
 sentence-transformers==2.2.2
-
 tenseal==0.3.14
-
 torch==2.0.1
-
 scikit-learn==1.3.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following steps have been tested and are confirmed to work on Birkbeck’s Department for Computer Science (DCS) laboratory computers. These machines also satisfy the above assumptions (i.e., they have Anaconda installed and are internet connected).
 
@@ -120,39 +120,57 @@ The following steps have been tested and are confirmed to work on Birkbeck’s D
 
 1.  Create a new Anaconda environment named ‘UPPEAL’ with Python 3.10.12 as the interpreter version:
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 conda create -n UPPEAL python==3.10.12
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1.  Activate the new environment:
 
-    conda activate UPPEAL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+conda activate UPPEAL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2.  Install NumPy (v1.23.1):
+1.  Install NumPy (v1.23.1):
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pip install numpy==1.23.1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1.  Install Sentence-Transformers (v2.2.2):
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pip install sentence-transformers==2.2.2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1.  Install Tenseal (v0.3.14):
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pip install tenseal==0.3.14
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1.  Install PyTorch (v2.0.1):
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pip install torch==2.0.1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1.  Install Scikit-Learn (v1.3.0):
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pip install scikit-learn==1.3.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1.  Change directory to the source folder “../UPPEAL/src” (angle brackets are not required):
 
-    cd /d \<path_to_the_package\\UPPEAL\\src\>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cd /d <path_to_the_package\UPPEAL\src>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2.  To run the program with the default parameters:
+1.  To run the program with the default parameters:
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 python main.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1.  There are several command line arguments that can be specified to run the program with different parameter values/model configurations. These are as follows:
 
@@ -166,68 +184,62 @@ python main.py
 
     \--element_wise_op : this flag specifies the pooling operation to be performed on attribute embeddings. The values accepted are “mean”, to denote mean pooling, or “normalise_only”, to denote that no pooling operation is required. If “attr_val_one_sentence” and “val_one_sentence” are specified as the –-sentence_type, this argument will default to “normalise_only”.
 
-    \--evaluation_direction : this flag specifies if DBpedia entities should be compared with Wikidata entities or vice versa. The values accepted are “dbp_to_wkd” for DBpedia to Wikidata, or “wkd_to_dbp” for Wikidata to DBpedia.
+    \--evaluation_direction : this flag specifies if *DBpedia* entities should be compared with *Wikidata* entities or vice versa. The values accepted are “dbp_to_wkd” for *DBpedia* to *Wikidata,* or “wkd_to_dbp” for *Wikidata* to *DBpedia*.
 
     \--enc : include this flag to encrypt entity embeddings using the CKKS fully homomorphic encryption scheme. Please note, this increases the computational cost of the method exponentially.
 
-**Examples.**
+### Examples.
 
 Below are some examples of how these flags can be utilised.
 
-*Example 1.*
+**Example 1.**
 
-Perform entity alignment on the *DBP-WD-15K-V1* dataset. Perform embedding using *Sentence-T5-Large*. Pre-process attribute triples to keep only the attribute values and concatenate them into one sentence. Remove the attribute value data type. Compare DBpedia entities with Wikidata entities. Do not encrypt the embeddings.
+Perform entity alignment on the *DBP-WD-15K-V1* dataset. Perform embedding using *Sentence-T5-Large*. Pre-process attribute triples to keep only the attribute values and concatenate them into one sentence. Remove the attribute value data type. Compare *DBpedia* entities with *Wikidata* entities. Do not encrypt the embeddings.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 python main.py --dataset "D_W_15K_V1" --model_name "sentence-t5-large" --sentence_type "val_one_sentence" --remove_value_data_type --element_wise_op "normalise_only" --evaluation_direction "dbp_to_wkd"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*Example 2.*
+**Example 2.**
 
-Perform entity alignment on the *DBP-WD-15K-V2* dataset. Perform embedding using *All-MPNet-Base-v2*. Pre-process attribute triples to keep only the attribute types and values. Perform mean pooling to derive single entity embeddings. Do not remove the attribute value data type. Compare DBpedia entities with Wikidata entities. Encrypt the embeddings.
+Perform entity alignment on the *DBP-WD-15K-V2* dataset. Perform embedding using *All-MPNet-Base-v2*. Pre-process attribute triples to keep only the attribute types and values. Perform mean pooling to derive single entity embeddings. Do not remove the attribute value data type. Compare *DBpedia* entities with *Wikidata* entities. Encrypt the embeddings.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 python main.py --dataset "D_W_15K_V2" --model_name "all-mpnet-base-v2" --sentence_type "attr_val" --element_wise_op "mean" --evaluation_direction "wkd_to_dbp" --enc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-*Default Parameters.*
+**Default Parameters.**
 
-Perform entity alignment on the *DBP-WD-15K-V1* dataset. Perform embedding using *Sentence-T5-Large*. Pre-process attribute triples to keep only the attribute values and concatenate them into one sentence. Do not remove the attribute value data type. Compare DBpedia entities with Wikidata entities. Do not encrypt the embeddings.
+Perform entity alignment on the *DBP-WD-15K-V1* dataset. Perform embedding using *Sentence-T5-Large*. Pre-process attribute triples to keep only the attribute values and concatenate them into one sentence. Do not remove the attribute value data type. Compare *DBpedia* entities with *Wikidata* entities. Do not encrypt the embeddings.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 python main.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The arguments you have specified will be returned to the command prompt window upon execution:
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 dataset: D_W_15K_V1
-
 model_name: sentence-t5-large
-
 sentence_type: val_one_sentence
-
 remove_value_data_type: False
-
 element_wise_op: mean
-
 evaluation_direction: dbp_to_wkd
-
 enc: False
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Once the model has successfully executed, the evaluation metrics will be returned. These include the *hits@1, hits@5, hits@10,* and *hits@50* scores, as well as the *Mean Reciprocal Rank (MRR)*. The output will look similar to the below.
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Total Hits @ 1: 1373.
-
 Percentage of Hits @ 1: 0.10366175915439789.
-
 Total Hits @ 5: 1947.
-
 Percentage of Hits @ 5: 0.14699886749716876.
-
 Total Hits @ 10: 2206.
-
 Percentage of Hits @ 10: 0.16655341638354096.
-
 Total Hits @ 50: 2911.
-
 Percentage of Hits @ 50: 0.21978104945262364.
-
 Computing MRR...
-
 Mean Reciprocal Rank (MRR) = 0.1261
-
 Execution_time = 808.5615735054016s.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
